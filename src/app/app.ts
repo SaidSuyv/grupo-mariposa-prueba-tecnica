@@ -1,5 +1,7 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
+import { TaskManagerService } from 'features/tasks/state/task.store'
+import { ITask } from 'features/tasks/models/task.interface'
 
 @Component({
   selector: 'app-root',
@@ -8,5 +10,5 @@ import { RouterOutlet } from '@angular/router';
   styleUrl: './app.css'
 })
 export class App {
-  protected readonly title = signal('prueba-tecnica');
+  private readonly taskManager = inject(TaskManagerService)
 }
