@@ -1,1 +1,10 @@
-<p>task-item.component works!</p>
+<p-card class="border border-zinc-700" (click)="handleOpenTask()">
+    <div class="grid grid-cols-3 items-center gap-2">
+        <div class="col-span-2">
+            <p class="text-xl font-bold">{{ task().name }}</p>
+            <p [title]="task().description" class="text-sm max-w-80 overflow-hidden text-nowrap text-ellipsis">{{ task().description }}</p>
+        </div>
+        <p-tag [value]="getPriorityTitle(task().priority)" [severity]="getPrioritySeverity(task().priority)" />
+    </div>
+</p-card>
+<app-edit-task-dialog [task]="task()"></app-edit-task-dialog>

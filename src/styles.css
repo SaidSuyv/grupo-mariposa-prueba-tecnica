@@ -3,3 +3,5 @@
 @import 'tailwindcss';
 @import 'tailwindcss-primeui';
 @import 'primeicons/primeicons.css';
+
+html,body { min-height: 100dvh; height: 100%; }

@@ -5,6 +5,7 @@ import { ButtonModule } from 'primeng/button';
 import { CreateNewTaskDialog } from "./features/tasks/dialogs/create-new-task.dialog/create-new-task.dialog";
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { AccordionModule } from 'primeng/accordion';
+import { TaskItemComponent } from "./features/tasks/components/task-item.component/task-item.component";
 
 @Component({
   selector: 'app-root',
@@ -13,6 +14,7 @@ import { AccordionModule } from 'primeng/accordion';
     CreateNewTaskDialog,
     DragDropModule,
     AccordionModule,
+    TaskItemComponent
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

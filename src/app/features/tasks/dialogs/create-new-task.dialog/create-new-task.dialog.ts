@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, inject, signal, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
@@ -8,6 +8,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectModule } from 'primeng/select';
 import { TaskStore } from '../../state/task.store';
 import { ITask, PriorityType, StateType } from '../../models/task.interface';
+import { TaskForm } from "../../forms/task.form/task.form";
 
 @Component({
   selector: 'app-create-new-task-dialog',
@@ -19,40 +20,20 @@ import { ITask, PriorityType, StateType } from '../../models/task.interface';
     TextareaModule,
     FloatLabelModule,
     SelectModule,
-  ],
+    TaskForm
+],
   templateUrl: './create-new-task.dialog.html',
   styleUrl: './create-new-task.dialog.css',
 })
 export class CreateNewTaskDialog {
+  @ViewChild(TaskForm) taskForm!: TaskForm
 
   private readonly taskStore = inject(TaskStore)
-  private readonly fb = inject(FormBuilder)
-
-  priorityOptions = [
-    {
-      label: 'Baja',
-      value: 'low'
-    },
-    {
-      label: 'Media',
-      value: 'medium'
-    },
-    {
-      label: 'Alta',
-      value: 'high'
-    }
-  ]
-
-  newTaskForm = this.fb.group({
-    name: this.fb.control<string | null>(null, Validators.required),
-    description: this.fb.control<string | null>(null),
-    priority: this.fb.control<PriorityType>('low', Validators.required)
-  })
 
   isDialogVisible = signal<boolean>(false)
 
   showDialog() {
-    this.newTaskForm.reset()
+    this.taskForm.reset()
     this.isDialogVisible.set(true)
   }
 
@@ -60,14 +41,10 @@ export class CreateNewTaskDialog {
     this.isDialogVisible.set(false)
   }
 
-  handleSubmit() {
-    if (this.newTaskForm.invalid) return
-
-    const formValue = this.newTaskForm.value
-
-    const name = formValue.name!
-    const description = formValue.description!
-    const priority = formValue.priority!
+  handleSubmit(task: Partial<ITask>) {
+    const name = task.name!
+    const description = task.description!
+    const priority = task.priority!
 
     this.taskStore.addTask(name, description, priority)
 

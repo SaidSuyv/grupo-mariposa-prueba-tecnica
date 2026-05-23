@@ -68,11 +68,19 @@ export class TaskStore {
     this._tasks.update((tasks: ITask[]) => [...tasks, task])
   }
 
-  editTask(id: string, data: ITask) {
+  editTask(id: string, data: Partial<ITask>) {
     this._tasks.update(
       (tasks: ITask[]) => tasks.map(
         task => {
-          if (task.id === id) return data
+          if (task.id === id) {
+            return {
+              ...task,
+              name: data.name!,
+              description: data.description!,
+              priority: data.priority!,
+              updatedAt: new Date()
+            }
+          }
           else return task
         }
       )
