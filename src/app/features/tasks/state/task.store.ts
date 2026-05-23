@@ -1,5 +1,5 @@
-import { Injectable, signal } from '@angular/core';
-import { ITask } from '../shared/interfaces/task.interface'
+import { computed, effect, Injectable, signal } from '@angular/core';
+import { ITask, PriorityType, StateType } from '../models/task.interface'
 
 @Injectable({
   providedIn: 'root',
@@ -10,44 +10,126 @@ export class TaskStore {
 
   readonly tasks = this._tasks.asReadonly()
 
-  readonly backlogTasks = computed(
-    () =>
-      this._tasks()
-      .filter( t => t.state === 'backlog' )
-  )
+  readonly groupedTasks = computed(() => {
+    const grouped: Record<StateType, ITask[]> = {
+      'backlog': [],
+      'in-progress': [],
+      'done': []
+    }
 
-  readonly inProgressTasks = computed(
-    () =>
-      this._tasks().filter( t => t.state === 'progress' )
-  )
+    for (const task of this._tasks()) {
+      grouped[task.state].push(task)
+    }
 
-  readonly doneTasks = computed(
-    () =>
-      this._tasks().filter( t => t.state === 'done' )
-  )
+    for (const key in grouped) {
+      grouped[key as StateType].sort(
+        (a, b) => a.order - b.order
+      )
+    }
+    return grouped
+  })
 
-  create(data: ITask){
-    this._tasks.update(
-      (tasks: ITask[]) => [...tasks, data]
+  constructor() {
+    this.loadTasks()
+    effect(
+      () => {
+        localStorage.setItem('pruebatecnica_tasks', JSON.stringify(this._tasks()))
+      }
     )
   }
 
-  edit(id: number, data: ITask){
+  private loadTasks() {
+    try {
+      const stored = localStorage.getItem('pruebatecnica_tasks')
+      if (!stored) return
+      const stored_tasks: ITask[] = JSON.parse(stored)
+      this._tasks.set(stored_tasks)
+    }
+    catch (error) {
+      console.error('Error recargando tasks', error)
+      this._tasks.set([])
+    }
+  }
+
+  addTask(name: string, description: string, priority: PriorityType) {
+    const backlog = this.groupedTasks().backlog
+    const order = backlog.length ? backlog[backlog.length - 1].order + 1 : 0
+
+    const task: ITask = {
+      id: crypto.randomUUID(),
+      name,
+      description,
+      priority,
+      state: 'backlog',
+      order,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    }
+    this._tasks.update((tasks: ITask[]) => [...tasks, task])
+  }
+
+  editTask(id: string, data: ITask) {
     this._tasks.update(
       (tasks: ITask[]) => tasks.map(
         task => {
-          if(task.id === id) return { id, ...data }
+          if (task.id === id) return data
           else return task
         }
       )
     )
   }
 
-  remove(id: number){
+  removeTask(id: string) {
     this._tasks.update(
       (tasks: ITask[]) =>
-        tasks.filter( t => id !== t.id )
+        tasks.filter(t => id !== t.id)
     )
+  }
+
+  moveTask(
+    taskId: string,
+    targetState: StateType,
+    targetIndex: number
+  ) {
+    const tasks = [...this._tasks()]
+
+    const task = tasks.find(t => t.id === taskId)
+
+    if (!task) return
+
+    const sourceState = task.state
+
+    if (sourceState === targetState) {
+      const stateTasks = tasks
+        .filter(t => t.state === sourceState)
+        .sort((a, b) => a.order - b.order)
+
+      const sourceIndex = stateTasks.findIndex(t => t.id === taskId)
+      if (sourceIndex !== -1) {
+        stateTasks.splice(sourceIndex, 1)
+        stateTasks.splice(targetIndex, 0, task)
+        stateTasks.forEach((t, i) => { t.order = i })
+      }
+    } else {
+      const sourceTasks = tasks
+        .filter(t => t.state === sourceState)
+        .sort((a, b) => a.order - b.order)
+
+      const targetTasks = tasks
+        .filter(t => t.state === targetState)
+        .sort((a, b) => a.order - b.order)
+
+      const sourceIndex = sourceTasks.findIndex(t => t.id === taskId)
+      if (sourceIndex !== -1) {
+        sourceTasks.splice(sourceIndex, 1)
+        task.state = targetState
+        targetTasks.splice(targetIndex, 0, task)
+        sourceTasks.forEach((t, i) => { t.order = i })
+        targetTasks.forEach((t, i) => { t.order = i })
+      }
+    }
+
+    this._tasks.set([...tasks])
   }
 
 }

@@ -1,7 +1,13 @@
 export interface ITask {
-  id: number;
+  id: string;
   name: string;
   description: string;
-  priority: 'high' | 'medium' | 'low';
-  state: 'backlog' | 'progress' | 'done';
+  priority: PriorityType;
+  state: StateType;
+  order: number;
+  createdAt: Date;
+  updatedAt: Date;
 }
+
+export type PriorityType = 'high' | 'medium' | 'low'
+export type StateType = 'backlog' | 'in-progress' | 'done'
