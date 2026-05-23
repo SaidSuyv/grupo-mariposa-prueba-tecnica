@@ -1,11 +1,10 @@
 import { Component, computed, inject } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
 import { TaskManagerService } from 'features/tasks/state/task.store'
 import { ITask } from 'features/tasks/models/task.interface'
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet],
+  imports: [],
   templateUrl: './app.html',
   styleUrl: './app.css'
 })

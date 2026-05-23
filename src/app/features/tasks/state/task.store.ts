@@ -4,18 +4,36 @@ import { ITask } from '../shared/interfaces/task.interface'
 @Injectable({
   providedIn: 'root',
 })
-export class TaskManagerService {
+export class TaskStore {
 
-  public aTasks = signal<ITask[]>([])
+  private readonly _tasks = signal<ITask[]>([])
+
+  readonly tasks = this._tasks.asReadonly()
+
+  readonly backlogTasks = computed(
+    () =>
+      this._tasks()
+      .filter( t => t.state === 'backlog' )
+  )
+
+  readonly inProgressTasks = computed(
+    () =>
+      this._tasks().filter( t => t.state === 'progress' )
+  )
+
+  readonly doneTasks = computed(
+    () =>
+      this._tasks().filter( t => t.state === 'done' )
+  )
 
   create(data: ITask){
-    this.aTasks.update(
+    this._tasks.update(
       (tasks: ITask[]) => [...tasks, data]
     )
   }
 
   edit(id: number, data: ITask){
-    this.aTask.update(
+    this._tasks.update(
       (tasks: ITask[]) => tasks.map(
         task => {
           if(task.id === id) return { id, ...data }
@@ -26,7 +44,7 @@ export class TaskManagerService {
   }
 
   remove(id: number){
-    this.aTasks.update(
+    this._tasks.update(
       (tasks: ITask[]) =>
         tasks.filter( t => id !== t.id )
     )
