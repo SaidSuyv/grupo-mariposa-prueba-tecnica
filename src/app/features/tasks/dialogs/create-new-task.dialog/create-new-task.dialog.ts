@@ -9,6 +9,7 @@ import { SelectModule } from 'primeng/select';
 import { TaskStore } from '../../state/task.store';
 import { ITask, PriorityType, StateType } from '../../models/task.interface';
 import { TaskForm } from "../../forms/task.form/task.form";
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-create-new-task-dialog',
@@ -21,7 +22,7 @@ import { TaskForm } from "../../forms/task.form/task.form";
     FloatLabelModule,
     SelectModule,
     TaskForm
-],
+  ],
   templateUrl: './create-new-task.dialog.html',
   styleUrl: './create-new-task.dialog.css',
 })
@@ -29,6 +30,7 @@ export class CreateNewTaskDialog {
   @ViewChild(TaskForm) taskForm!: TaskForm
 
   private readonly taskStore = inject(TaskStore)
+  private readonly messageService = inject(MessageService)
 
   isDialogVisible = signal<boolean>(false)
 
@@ -47,6 +49,8 @@ export class CreateNewTaskDialog {
     const priority = task.priority!
 
     this.taskStore.addTask(name, description, priority)
+
+    this.messageService.add({ severity: 'success', summary: 'Tarea creada', detail: 'La tarea se ha creado correctamente' })
 
     this.hideDialog()
   }

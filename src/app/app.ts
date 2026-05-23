@@ -6,6 +6,8 @@ import { CreateNewTaskDialog } from "./features/tasks/dialogs/create-new-task.di
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
 import { AccordionModule } from 'primeng/accordion';
 import { TaskItemComponent } from "./features/tasks/components/task-item.component/task-item.component";
+import { ToastModule } from 'primeng/toast';
+import { ConfirmDialog } from "primeng/confirmdialog";
 
 @Component({
   selector: 'app-root',
@@ -14,7 +16,9 @@ import { TaskItemComponent } from "./features/tasks/components/task-item.compone
     CreateNewTaskDialog,
     DragDropModule,
     AccordionModule,
-    TaskItemComponent
+    TaskItemComponent,
+    ToastModule,
+    ConfirmDialog
   ],
   templateUrl: './app.html',
   styleUrl: './app.css'

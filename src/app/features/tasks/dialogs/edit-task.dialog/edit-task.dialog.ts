@@ -3,13 +3,14 @@ import { DialogModule } from 'primeng/dialog'
 import { ITask } from '../../models/task.interface';
 import { TaskForm } from "../../forms/task.form/task.form";
 import { TaskStore } from '../../state/task.store';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-edit-task-dialog',
   imports: [
     DialogModule,
     TaskForm
-],
+  ],
   templateUrl: './edit-task.dialog.html',
   styleUrl: './edit-task.dialog.css',
 })
@@ -18,19 +19,21 @@ export class EditTaskDialog {
   @ViewChild(TaskForm) taskForm!: TaskForm
 
   private readonly taskStore = inject(TaskStore)
+  private readonly messageService = inject(MessageService)
 
   task = input.required<ITask>()
   onClose = output<void>()
 
   isDialogVisible = signal<boolean>(false)
 
-  showDialog(){
+  showDialog() {
     this.isDialogVisible.set(true)
     this.taskForm.reset()
   }
 
-  hideDialog(){
+  hideDialog() {
     this.isDialogVisible.set(false)
+    this.onClose.emit()
   }
 
   handleSubmit(task: Partial<ITask>) {
@@ -40,7 +43,7 @@ export class EditTaskDialog {
     const priority = task.priority!
 
     this.taskStore.editTask(id, { name, description, priority })
-
+    this.messageService.add({ severity: 'success', summary: 'Tarea editada', detail: 'La tarea se ha editado correctamente' })
     this.hideDialog()
   }
 

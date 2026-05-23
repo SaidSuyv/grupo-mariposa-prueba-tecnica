@@ -1,18 +1,6 @@
-<p-dialog
-  header="Editar Tarea"
-  [(visible)]="isDialogVisible"
-  modal
-  [draggable]="false"
-  [resizable]="false"
-  [style]="{ width: '25rem' }"
-  [breakpoints]="{ '960px': '75vw' }"
-  [closable]="false"
-  [focusOnShow]="false"
->
-  <app-task-form
-    [taskData]="task()"
-    (onCanceled)="hideDialog()"
-    (onSubmitted)="handleSubmit($event)"
-    [isEdit]="true"
-  ></app-task-form>
+<p-dialog header="Editar Tarea" [(visible)]="isDialogVisible" modal [draggable]="false" [resizable]="false"
+  [style]="{ width: '25rem' }" [breakpoints]="{ '960px': '75vw' }" [closable]="false" [focusOnShow]="false"
+  appendTo="body">
+  <app-task-form [taskData]="task()" (onCanceled)="hideDialog()" (onSubmitted)="handleSubmit($event)"
+    [isEdit]="true"></app-task-form>
 </p-dialog>
