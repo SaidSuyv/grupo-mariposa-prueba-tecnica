@@ -8,6 +8,7 @@ import { AccordionModule } from 'primeng/accordion';
 import { TaskItemComponent } from "./features/tasks/components/task-item.component/task-item.component";
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialog } from "primeng/confirmdialog";
+import { CdkScrollable } from '@angular/cdk/scrolling';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,7 @@ import { ConfirmDialog } from "primeng/confirmdialog";
     ButtonModule,
     CreateNewTaskDialog,
     DragDropModule,
-    // CdkScrollable,
+    CdkScrollable,
     AccordionModule,
     TaskItemComponent,
     ToastModule,
