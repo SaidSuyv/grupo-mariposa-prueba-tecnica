@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { EditTaskDialog } from './edit-task.dialog';
+import { MessageService } from 'primeng/api'
 
 describe('EditTaskDialog', () => {
   let component: EditTaskDialog;
@@ -9,6 +10,9 @@ describe('EditTaskDialog', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [EditTaskDialog],
+      providers: [
+        MessageService
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(EditTaskDialog);

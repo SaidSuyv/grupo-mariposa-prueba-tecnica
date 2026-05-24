@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { CreateNewTaskDialog } from './create-new-task.dialog';
 
+import { MessageService } from 'primeng/api'
+
 describe('CreateNewTaskDialog', () => {
   let component: CreateNewTaskDialog;
   let fixture: ComponentFixture<CreateNewTaskDialog>;
@@ -9,6 +11,9 @@ describe('CreateNewTaskDialog', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [CreateNewTaskDialog],
+      providers: [
+        MessageService
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(CreateNewTaskDialog);

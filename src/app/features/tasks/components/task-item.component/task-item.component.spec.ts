@@ -2,6 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { TaskItemComponent } from './task-item.component';
 
+import { ConfirmationService } from 'primeng/api'
+
 describe('TaskItemComponent', () => {
   let component: TaskItemComponent;
   let fixture: ComponentFixture<TaskItemComponent>;
@@ -9,6 +11,9 @@ describe('TaskItemComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [TaskItemComponent],
+      providers: [
+        ConfirmationService
+      ]
     }).compileComponents();
 
     fixture = TestBed.createComponent(TaskItemComponent);
