@@ -10,6 +10,10 @@ export class TaskStore {
 
   readonly tasks = this._tasks.asReadonly()
 
+  private readonly _activeFilter = signal<{ state: StateType, priority: PriorityType } | null>(null)
+
+  readonly activeFilter = this._activeFilter.asReadonly()
+
   readonly groupedTasks = computed(() => {
     const grouped: Record<StateType, ITask[]> = {
       'backlog': [],
@@ -17,7 +21,12 @@ export class TaskStore {
       'done': []
     }
 
+    const filter = this._activeFilter()
+
     for (const task of this._tasks()) {
+      if (filter && task.state === filter.state && task.priority !== filter.priority) {
+        continue
+      }
       grouped[task.state].push(task)
     }
 
@@ -138,6 +147,14 @@ export class TaskStore {
     }
 
     this._tasks.set([...tasks])
+  }
+
+  filterTasksByPriority(state: StateType, priority: PriorityType) {
+    this._activeFilter.set({ state, priority })
+  }
+
+  resetFilter() {
+    this._activeFilter.set(null)
   }
 
 }

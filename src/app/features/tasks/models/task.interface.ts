@@ -13,13 +13,13 @@ export type PriorityType = 'high' | 'medium' | 'low'
 export type StateType = 'backlog' | 'in-progress' | 'done'
 
 export const PRIORITY_TITLE = {
-  high: 'Prioridad Alta',
-  medium: 'Prioridad Media',
-  low: 'Prioridad Baja'
+  high: 'Alta',
+  medium: 'Media',
+  low: 'Baja'
 } as const;
 
 export const PRIORITY_SEVERITY = {
   high: 'danger',
-  medium: 'info',
+  medium: 'warn',
   low: 'success'
 } as const;

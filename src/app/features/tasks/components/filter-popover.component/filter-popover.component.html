@@ -1,0 +1,17 @@
+@if(isFilterActive()){
+<p-button icon="pi pi-filter-slash" severity="danger" text rounded (onClick)="handleResetFilter()"
+    pTooltip="Limpiar filtro" tooltipPosition="top" />
+} @else {
+<p-button icon="pi pi-filter" text rounded (onClick)="filterop.toggle($event)" pTooltip="Filtrar"
+    tooltipPosition="top" />
+}
+<p-popover #filterop>
+    <ng-template #content>
+        <form [formGroup]="filterForm" (ngSubmit)="handleFilterByPriority()" class="flex flex-col gap-4 min-w-72">
+            <h2 class="text-xl font-semibold">Filtros</h2>
+            <p-select [options]="priorities" optionLabel="label" optionValue="value"
+                placeholder="Selecciona una prioridad" formControlName="priority" fluid />
+            <p-button label="Filtrar" type="submit" [disabled]="filterForm.invalid" fluid />
+        </form>
+    </ng-template>
+</p-popover>

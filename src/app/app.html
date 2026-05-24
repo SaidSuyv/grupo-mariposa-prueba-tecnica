@@ -1,4 +1,4 @@
-<div class="h-full w-full flex flex-col gap-5 p-5">
+<div class="h-full w-full max-w-[1700px] mx-auto flex flex-col gap-5 p-5">
     <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
         <h1 class="text-xl font-bold">Mi lista de tareas</h1>
         <app-create-new-task-dialog />
@@ -12,19 +12,26 @@
                 <p-accordion-panel [style]="{ border: 'none' }">
                     <div class="border border-zinc-700 rounded-2xl overflow-hidden">
                         <p-accordion-header [style]="{ cursor: 'default' }">
-                            <ng-template #toggleicon></ng-template>
-                            <div class="flex flex-col gap-3">
+                            <ng-template #toggleicon>
+                                <app-filter-popover-component [state]="column" />
+                            </ng-template>
+                            <div class="flex items-center justify-between w-full gap-3">
                                 <h2 class="text-lg font-semibold capitalize">{{ columnNames[column] }}</h2>
                             </div>
                         </p-accordion-header>
                         <p-accordion-content>
-                            <div class="min-h-20 flex flex-col gap-4" cdkDropList
-                                [cdkDropListData]="taskStore.groupedTasks()[column]"
+                            <div class="min-h-20 max-h-[calc(100dvh-16rem)] overflow-auto flex flex-col gap-4"
+                                cdkDropList [cdkDropListData]="taskStore.groupedTasks()[column]"
                                 [cdkDropListOrientation]="'vertical'" (cdkDropListDropped)="handleDrop($event, column)">
                                 @for (task of taskStore.groupedTasks()[column]; track task.id) {
                                 <div cdkDrag [cdkDragData]="task" [cdkDragStartDelay]="dragStartDelay"
                                     (touchstart)="dragStartDelay = 200" (mousedown)="dragStartDelay = 0">
-                                    <app-task-item-component [task]="task"></app-task-item-component>
+                                    <app-task-item-component [task]="task" />
+                                </div>
+                                } @empty {
+                                <div
+                                    class="flex items-center justify-center h-40 border border-dashed border-2 border-zinc-700 rounded-xl">
+                                    <p class="text-zinc-500">No hay tareas en esta columna</p>
                                 </div>
                                 }
                             </div>
@@ -37,4 +44,4 @@
     </div>
 </div>
 <p-toast appendTo="body" />
-<p-confirmDialog appendTo="body" [draggable]="false"></p-confirmDialog>
+<p-confirmDialog appendTo="body" [draggable]="false" />

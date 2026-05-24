@@ -1,17 +1,17 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { ViewTaskDialog } from './view-task.dialog';
+import { FilterPopoverComponent } from './filter-popover.component';
 
-describe('ViewTaskDialog', () => {
-  let component: ViewTaskDialog;
-  let fixture: ComponentFixture<ViewTaskDialog>;
+describe('FilterPopoverComponent', () => {
+  let component: FilterPopoverComponent;
+  let fixture: ComponentFixture<FilterPopoverComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ViewTaskDialog],
+      imports: [FilterPopoverComponent],
     }).compileComponents();
 
-    fixture = TestBed.createComponent(ViewTaskDialog);
+    fixture = TestBed.createComponent(FilterPopoverComponent);
     component = fixture.componentInstance;
     await fixture.whenStable();
   });

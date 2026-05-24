@@ -1,12 +1,32 @@
-<p-card class="border border-zinc-700" (click)="handleOpenViewDialog()">
-    <div class="grid grid-cols-3 items-center gap-2">
-        <div class="col-span-2">
-            <p class="text-xl font-bold">{{ task().name }}</p>
-            <p [title]="task().description" class="text-sm max-w-80 overflow-hidden text-nowrap text-ellipsis">{{
-                task().description }}</p>
+<p-card class="border border-zinc-700 cursor-pointer hover:bg-zinc-800! transition-colors group">
+    <div class="flex flex-col items-start gap-3">
+        <div class="flex items-center justify-between w-full min-h-8">
+            <p-tag [value]="priorityTitle()" [severity]="prioritySeverity()" />
+            <div class="flex lg:hidden group-hover:flex items-center gap-2">
+                <p-button icon="pi pi-pencil" severity="secondary" size="small" text rounded
+                    (onClick)="handleOpenEditDialog()" />
+                <p-button icon="pi pi-trash" severity="danger" size="small" text rounded (onClick)="handleRemove()" />
+            </div>
         </div>
-        <p-tag [value]="priorityTitle()" [severity]="prioritySeverity()" />
+        <p class="text-xl font-bold">{{ task().name }}</p>
+        <p [title]="task().description" class="text-sm max-w-80 overflow-hidden text-nowrap text-ellipsis">{{
+            task().description }}</p>
+        <p-divider class="m-0!" />
+        <div class="flex flex-col gap-1">
+            <p class="text-sm text-zinc-500 flex flex-col xl:flex-row xl:items-center xl:gap-2">
+                <span>
+                    <i class="pi pi-calendar mr-2" style="font-size: 0.8rem;"></i> Creado:
+                </span>
+                <span>{{ createdAt() }}</span>
+            </p>
+
+            <p class="text-sm text-zinc-500 flex flex-col xl:flex-row xl:items-center xl:gap-2">
+                <span>
+                    <i class="pi pi-clock mr-2" style="font-size: 0.8rem;"></i> Actualizado:
+                </span>
+                <span>{{ updatedAt() }}</span>
+            </p>
+        </div>
     </div>
 </p-card>
-<app-view-task-dialog [task]="task()" (onEdit)="handleOpenEditDialog()" />
-<app-edit-task-dialog [task]="task()" (onClose)="handleOpenViewDialog()" />
+<app-edit-task-dialog [task]="task()" />

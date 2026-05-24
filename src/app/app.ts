@@ -9,6 +9,7 @@ import { TaskItemComponent } from "./features/tasks/components/task-item.compone
 import { ToastModule } from 'primeng/toast';
 import { ConfirmDialog } from "primeng/confirmdialog";
 import { CdkScrollable } from '@angular/cdk/scrolling';
+import { FilterPopoverComponent } from "./features/tasks/components/filter-popover.component/filter-popover.component";
 
 @Component({
   selector: 'app-root',
@@ -20,7 +21,8 @@ import { CdkScrollable } from '@angular/cdk/scrolling';
     AccordionModule,
     TaskItemComponent,
     ToastModule,
-    ConfirmDialog
+    ConfirmDialog,
+    FilterPopoverComponent,
   ],
   templateUrl: './app.html',
   styleUrl: './app.css',
