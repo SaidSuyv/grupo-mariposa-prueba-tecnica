@@ -3,7 +3,9 @@
         <h1 class="text-xl font-bold">Mi lista de tareas</h1>
         <app-create-new-task-dialog />
     </div>
-    <div class="max-w-full h-full overflow-auto">
+    <div class="max-w-full h-full overflow-auto" #scrollContainer cdkScrollable
+        (mousedown)="onMouseDown($event, scrollContainer)" (mousemove)="onMouseMove($event, scrollContainer)"
+        (mouseup)="onMouseUp(scrollContainer)" (mouseleave)="onMouseLeave(scrollContainer)">
         <div class="grid grid-cols-[repeat(3,minmax(350px,1fr))] gap-10 min-w-content" cdkDropListGroup>
             @for (column of columns; track column) {
             <p-accordion>
@@ -12,7 +14,7 @@
                         <p-accordion-header [style]="{ cursor: 'default' }">
                             <ng-template #toggleicon></ng-template>
                             <div class="flex flex-col gap-3">
-                                <h2 class="text-lg font-semibold capitalize">{{ getListName(column) }}</h2>
+                                <h2 class="text-lg font-semibold capitalize">{{ columnNames[column] }}</h2>
                             </div>
                         </p-accordion-header>
                         <p-accordion-content>
@@ -20,7 +22,8 @@
                                 [cdkDropListData]="taskStore.groupedTasks()[column]"
                                 [cdkDropListOrientation]="'vertical'" (cdkDropListDropped)="handleDrop($event, column)">
                                 @for (task of taskStore.groupedTasks()[column]; track task.id) {
-                                <div cdkDrag [cdkDragData]="task">
+                                <div cdkDrag [cdkDragData]="task" [cdkDragStartDelay]="dragStartDelay"
+                                    (touchstart)="dragStartDelay = 200" (mousedown)="dragStartDelay = 0">
                                     <app-task-item-component [task]="task"></app-task-item-component>
                                 </div>
                                 }

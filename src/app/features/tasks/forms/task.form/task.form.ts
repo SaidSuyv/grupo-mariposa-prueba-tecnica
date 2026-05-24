@@ -1,4 +1,4 @@
-import { Component, inject, input, OnInit, output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, OnInit, output } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { ITask, PriorityType } from '../../models/task.interface';
 import { FloatLabel } from "primeng/floatlabel";
@@ -16,9 +16,10 @@ import { Button } from "primeng/button";
     Textarea,
     Select,
     Button
-],
+  ],
   templateUrl: './task.form.html',
   styleUrl: './task.form.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskForm implements OnInit {
   taskData = input<ITask>()
@@ -44,7 +45,7 @@ export class TaskForm implements OnInit {
   ]
 
   taskForm = this.fb.group({
-    id: this.fb.control<string|null>(null),
+    id: this.fb.control<string | null>(null),
     name: this.fb.control<string | null>(null, Validators.required),
     description: this.fb.control<string | null>(null),
     priority: this.fb.control<PriorityType>('low', Validators.required)
@@ -54,7 +55,7 @@ export class TaskForm implements OnInit {
     this.setInputData()
   }
 
-  setInputData(){
+  setInputData() {
     this.taskForm.patchValue({
       id: this.taskData()?.id || null,
       name: this.taskData()?.name || null,
@@ -63,13 +64,13 @@ export class TaskForm implements OnInit {
     })
   }
 
-  reset(){
+  reset() {
     this.taskForm.reset()
     this.setInputData()
   }
 
-  handleSubmit(){
-    if(this.taskForm.invalid) return
+  handleSubmit() {
+    if (this.taskForm.invalid) return
 
     const formValue = this.taskForm.value
 
@@ -83,7 +84,7 @@ export class TaskForm implements OnInit {
     this.onSubmitted.emit(task)
   }
 
-  handleCancelled(){
+  handleCancelled() {
     this.onCanceled.emit()
   }
 }

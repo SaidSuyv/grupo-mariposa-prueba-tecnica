@@ -1,4 +1,4 @@
-import { Component, inject, input, output, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, output, signal, ViewChild } from '@angular/core';
 import { DialogModule } from 'primeng/dialog'
 import { ITask } from '../../models/task.interface';
 import { TaskForm } from "../../forms/task.form/task.form";
@@ -13,6 +13,7 @@ import { MessageService } from 'primeng/api';
   ],
   templateUrl: './edit-task.dialog.html',
   styleUrl: './edit-task.dialog.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class EditTaskDialog {
 
