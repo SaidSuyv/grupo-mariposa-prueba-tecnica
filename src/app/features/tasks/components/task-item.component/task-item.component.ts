@@ -1,5 +1,5 @@
-import { Component, input, ViewChild } from '@angular/core';
-import { ITask, PRIORITY_SEVERITY, PRIORITY_TITLE, PriorityType } from '../../models/task.interface';
+import { ChangeDetectionStrategy, Component, computed, input, ViewChild } from '@angular/core';
+import { ITask, PRIORITY_SEVERITY, PRIORITY_TITLE } from '../../models/task.interface';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { EditTaskDialog } from "../../dialogs/edit-task.dialog/edit-task.dialog";
@@ -15,6 +15,7 @@ import { ViewTaskDialog } from "../../dialogs/view-task.dialog/view-task.dialog"
   ],
   templateUrl: './task-item.component.html',
   styleUrl: './task-item.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TaskItemComponent {
 
@@ -22,14 +23,8 @@ export class TaskItemComponent {
   @ViewChild(ViewTaskDialog) viewTaskDialog!: ViewTaskDialog;
 
   task = input.required<ITask>()
-
-  getPriorityTitle(priority: PriorityType): (typeof PRIORITY_TITLE)[PriorityType] {
-    return PRIORITY_TITLE[priority]
-  }
-
-  getPrioritySeverity(priority: PriorityType): (typeof PRIORITY_SEVERITY)[PriorityType] {
-    return PRIORITY_SEVERITY[priority]
-  }
+  priorityTitle = computed(() => PRIORITY_TITLE[this.task().priority])
+  prioritySeverity = computed(() => PRIORITY_SEVERITY[this.task().priority])
 
   handleOpenViewDialog() {
     this.viewTaskDialog.showDialog()

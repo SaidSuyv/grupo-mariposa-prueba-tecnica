@@ -1,4 +1,4 @@
-import { Component, inject, signal, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, signal, ViewChild } from '@angular/core';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { DialogModule } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
@@ -25,6 +25,7 @@ import { MessageService } from 'primeng/api';
   ],
   templateUrl: './create-new-task.dialog.html',
   styleUrl: './create-new-task.dialog.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CreateNewTaskDialog {
   @ViewChild(TaskForm) taskForm!: TaskForm

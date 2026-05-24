@@ -1,4 +1,4 @@
-import { Component, inject, input, output, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject, input, output, signal } from '@angular/core';
 import { ITask, PRIORITY_SEVERITY, PRIORITY_TITLE, PriorityType } from '../../models/task.interface';
 import { CardModule } from "primeng/card";
 import { ButtonModule } from "primeng/button";
@@ -19,6 +19,7 @@ import { TaskStore } from '../../state/task.store';
   ],
   templateUrl: './view-task.dialog.html',
   styleUrl: './view-task.dialog.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewTaskDialog {
 
@@ -27,6 +28,10 @@ export class ViewTaskDialog {
   private readonly taskStore = inject(TaskStore)
 
   task = input.required<ITask>();
+  priorityTitle = computed(() => PRIORITY_TITLE[this.task().priority])
+  prioritySeverity = computed(() => PRIORITY_SEVERITY[this.task().priority])
+  createDate = computed(() => this.task().createdAt.toLocaleString())
+  updateDate = computed(() => this.task().updatedAt.toLocaleString())
 
   onEdit = output<void>()
 
@@ -38,14 +43,6 @@ export class ViewTaskDialog {
 
   hideDialog() {
     this.isDialogVisible.set(false)
-  }
-
-  getPriorityTitle(priority: PriorityType): (typeof PRIORITY_TITLE)[PriorityType] {
-    return PRIORITY_TITLE[priority]
-  }
-
-  getPrioritySeverity(priority: PriorityType): (typeof PRIORITY_SEVERITY)[PriorityType] {
-    return PRIORITY_SEVERITY[priority]
   }
 
   handleEdit() {

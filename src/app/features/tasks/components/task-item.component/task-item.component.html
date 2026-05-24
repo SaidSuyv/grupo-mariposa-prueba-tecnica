@@ -5,7 +5,7 @@
             <p [title]="task().description" class="text-sm max-w-80 overflow-hidden text-nowrap text-ellipsis">{{
                 task().description }}</p>
         </div>
-        <p-tag [value]="getPriorityTitle(task().priority)" [severity]="getPrioritySeverity(task().priority)" />
+        <p-tag [value]="priorityTitle()" [severity]="prioritySeverity()" />
     </div>
 </p-card>
 <app-view-task-dialog [task]="task()" (onEdit)="handleOpenEditDialog()" />

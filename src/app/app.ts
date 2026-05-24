@@ -1,10 +1,9 @@
-import { Component, computed, inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { TaskStore } from './features/tasks/state/task.store'
 import { ITask, StateType } from './features/tasks/models/task.interface';
 import { ButtonModule } from 'primeng/button';
 import { CreateNewTaskDialog } from "./features/tasks/dialogs/create-new-task.dialog/create-new-task.dialog";
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
-// import { CdkScrollable } from '@angular/cdk/scrolling';
 import { AccordionModule } from 'primeng/accordion';
 import { TaskItemComponent } from "./features/tasks/components/task-item.component/task-item.component";
 import { ToastModule } from 'primeng/toast';
@@ -23,7 +22,8 @@ import { ConfirmDialog } from "primeng/confirmdialog";
     ConfirmDialog
   ],
   templateUrl: './app.html',
-  styleUrl: './app.css'
+  styleUrl: './app.css',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class App {
   taskStore = inject(TaskStore)
@@ -35,12 +35,10 @@ export class App {
   private startX = 0;
   private scrollLeft = 0;
 
-  getListName(state: StateType) {
-    return {
-      'backlog': 'Por hacer',
-      'in-progress': 'En progreso',
-      'done': 'Hecho'
-    }[state]
+  readonly columnNames: Record<StateType, string> = {
+    'backlog': 'Por hacer',
+    'in-progress': 'En progreso',
+    'done': 'Hecho'
   }
 
   handleDrop(
