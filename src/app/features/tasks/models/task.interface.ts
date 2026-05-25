@@ -1,25 +1,27 @@
 export interface ITask {
   id: string;
   name: string;
-  description: string;
-  priority: PriorityType;
-  state: StateType;
+  description: string | null;
+  priority: TaskPriorityType;
+  state: TaskStateType;
   order: number;
   createdAt: Date;
   updatedAt: Date;
 }
 
-export type PriorityType = 'high' | 'medium' | 'low'
-export type StateType = 'backlog' | 'in-progress' | 'done'
+export type TaskPriorityType = 'high' | 'medium' | 'low' | 'none';
+export type TaskStateType = 'backlog' | 'in-progress' | 'done';
 
 export const PRIORITY_TITLE = {
   high: 'Alta',
   medium: 'Media',
-  low: 'Baja'
+  low: 'Baja',
+  none: 'Sin prioridad'
 } as const;
 
 export const PRIORITY_SEVERITY = {
   high: 'danger',
   medium: 'warn',
-  low: 'success'
+  low: 'success',
+  none: 'secondary'
 } as const;

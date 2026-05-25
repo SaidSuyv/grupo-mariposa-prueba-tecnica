@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, computed, inject } from '@angular/core';
 import { TaskStore } from './features/tasks/state/task.store'
-import { ITask, StateType } from './features/tasks/models/task.interface';
+import { ITask, TaskStateType } from './features/tasks/models/task.interface';
 import { ButtonModule } from 'primeng/button';
 import { CreateNewTaskDialog } from "./features/tasks/dialogs/create-new-task.dialog/create-new-task.dialog";
 import { CdkDragDrop, DragDropModule } from '@angular/cdk/drag-drop';
@@ -31,14 +31,14 @@ import { FilterPopoverComponent } from "./features/tasks/components/filter-popov
 export class App {
   taskStore = inject(TaskStore)
 
-  readonly columns: StateType[] = ['backlog', 'in-progress', 'done']
+  readonly columns: TaskStateType[] = ['backlog', 'in-progress', 'done']
 
   dragStartDelay = 0;
   private isMouseDown = false;
   private startX = 0;
   private scrollLeft = 0;
 
-  readonly columnNames: Record<StateType, string> = {
+  readonly columnNames: Record<TaskStateType, string> = {
     'backlog': 'Por hacer',
     'in-progress': 'En progreso',
     'done': 'Hecho'
@@ -46,7 +46,7 @@ export class App {
 
   handleDrop(
     event: CdkDragDrop<ITask[]>,
-    targetState: StateType
+    targetState: TaskStateType
   ) {
     const task = event.item.data
 

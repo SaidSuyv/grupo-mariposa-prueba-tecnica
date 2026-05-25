@@ -3,6 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { CreateNewTaskDialog } from './create-new-task.dialog';
 
 import { MessageService } from 'primeng/api'
+import { STORAGE_KEY } from '../../../../core/tokens/storage.token';
 
 describe('CreateNewTaskDialog', () => {
   let component: CreateNewTaskDialog;
@@ -12,7 +13,8 @@ describe('CreateNewTaskDialog', () => {
     await TestBed.configureTestingModule({
       imports: [CreateNewTaskDialog],
       providers: [
-        MessageService
+        MessageService,
+        { provide: STORAGE_KEY, useValue: 'prueba_tecnica_task_test' }
       ]
     }).compileComponents();
 

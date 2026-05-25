@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, inject, input, signal, ViewChild } 
 import { ButtonModule } from 'primeng/button';
 import { Popover, PopoverModule } from 'primeng/popover';
 import { TaskStore } from '../../state/task.store';
-import { PriorityType, StateType } from '../../models/task.interface';
+import { TaskPriorityType, TaskStateType } from '../../models/task.interface';
 import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { SelectModule } from "primeng/select";
 import { TooltipModule } from "primeng/tooltip";
@@ -21,7 +21,7 @@ import { TooltipModule } from "primeng/tooltip";
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class FilterPopoverComponent {
-  state = input.required<StateType>()
+  state = input.required<TaskStateType>()
 
   @ViewChild(Popover) selfPopover!: Popover
 
@@ -30,26 +30,27 @@ export class FilterPopoverComponent {
 
   readonly isFilterActive = signal<boolean>(false)
 
-  readonly priorities: { label: string, value: PriorityType }[] = [
+  readonly priorities: { label: string, value: TaskPriorityType }[] = [
     { label: 'Baja', value: 'low' },
     { label: 'Media', value: 'medium' },
-    { label: 'Alta', value: 'high' }
+    { label: 'Alta', value: 'high' },
+    { label: 'Sin prioridad', value: 'none' }
   ]
 
   readonly filterForm = this.fb.group({
-    priority: [null as PriorityType | null, Validators.required]
+    priority: [null as TaskPriorityType | null, Validators.required]
   })
 
   handleFilterByPriority() {
     if (this.filterForm.invalid) return
-    const priority = this.filterForm.value.priority as PriorityType
+    const priority = this.filterForm.value.priority as TaskPriorityType
     this.taskStore.filterTasksByPriority(this.state(), priority)
     this.selfPopover.hide()
     this.isFilterActive.set(true)
   }
 
   handleResetFilter() {
-    this.taskStore.resetFilter()
+    this.taskStore.resetFilter(this.state())
     this.filterForm.reset()
     this.selfPopover.hide()
     this.isFilterActive.set(false)

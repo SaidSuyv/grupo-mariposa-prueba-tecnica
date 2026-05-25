@@ -21,7 +21,8 @@
                         </p-accordion-header>
                         <p-accordion-content>
                             <div class="min-h-20 max-h-[calc(100dvh-16rem)] overflow-auto flex flex-col gap-4"
-                                cdkDropList [cdkDropListData]="taskStore.groupedTasks()[column]"
+                                [attr.data-column]="column" cdkDropList
+                                [cdkDropListData]="taskStore.groupedTasks()[column]"
                                 [cdkDropListOrientation]="'vertical'" (cdkDropListDropped)="handleDrop($event, column)">
                                 @for (task of taskStore.groupedTasks()[column]; track task.id) {
                                 <div cdkDrag [cdkDragData]="task" [cdkDragStartDelay]="dragStartDelay"
@@ -30,7 +31,7 @@
                                 </div>
                                 } @empty {
                                 <div
-                                    class="flex items-center justify-center h-40 border border-dashed border-2 border-zinc-700 rounded-xl">
+                                    class="empty-container flex items-center justify-center h-40 border border-dashed border-2 border-zinc-700 rounded-xl">
                                     <p class="text-zinc-500">No hay tareas en esta columna</p>
                                 </div>
                                 }

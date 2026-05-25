@@ -5,6 +5,8 @@ import { routes } from './app.routes';
 import { providePrimeNG } from 'primeng/config';
 import Aura from '@primeuix/themes/aura';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { environment } from '../environments/environment';
+import { STORAGE_KEY } from './core/tokens/storage.token';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -19,6 +21,10 @@ export const appConfig: ApplicationConfig = {
       }
     }),
     MessageService,
-    ConfirmationService
+    ConfirmationService,
+    {
+      provide: STORAGE_KEY,
+      useValue: environment.taskStorageKey
+    },
   ]
 };

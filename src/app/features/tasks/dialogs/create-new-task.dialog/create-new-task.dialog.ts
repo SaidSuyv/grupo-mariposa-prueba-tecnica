@@ -7,7 +7,7 @@ import { TextareaModule } from 'primeng/textarea';
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { SelectModule } from 'primeng/select';
 import { TaskStore } from '../../state/task.store';
-import { ITask, PriorityType, StateType } from '../../models/task.interface';
+import { ITask, TaskPriorityType, TaskStateType } from '../../models/task.interface';
 import { TaskForm } from "../../forms/task.form/task.form";
 import { MessageService } from 'primeng/api';
 
@@ -44,10 +44,10 @@ export class CreateNewTaskDialog {
     this.isDialogVisible.set(false)
   }
 
-  handleSubmit(task: Partial<ITask>) {
-    const name = task.name!
-    const description = task.description!
-    const priority = task.priority!
+  handleSubmit(task: Pick<ITask, 'name' | 'description' | 'priority'>) {
+    const name = task.name
+    const description = task.description || ''
+    const priority = task.priority
 
     this.taskStore.addTask(name, description, priority)
 
