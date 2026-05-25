@@ -24,7 +24,7 @@ Aplicación web de gestión de tareas desarrollada con Angular utilizando arquit
 ## 1. Clonar repositorio
 
 ```bash
-git clone https://github.com/saidsuyv/grupo-mariposa-prueba-tecnica.git
+git clone https://github.com/SaidSuyv/grupo-mariposa-prueba-tecnica.git
 cd grupo-mariposa-prueba-tecnica
 ```
 
