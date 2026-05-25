@@ -32,8 +32,8 @@ export class TaskItemComponent {
   task = input.required<ITask>()
   priorityTitle = computed(() => PRIORITY_TITLE[this.task().priority])
   prioritySeverity = computed(() => PRIORITY_SEVERITY[this.task().priority])
-  createdAt = computed(() => new Date(this.task().createdAt).toLocaleString())
-  updatedAt = computed(() => new Date(this.task().updatedAt).toLocaleString())
+  createdAt = computed(() => this.task().createdAt.toLocaleString())
+  updatedAt = computed(() => this.task().updatedAt.toLocaleString())
 
   handleOpenEditDialog() {
     this.editTaskDialog.showDialog()
